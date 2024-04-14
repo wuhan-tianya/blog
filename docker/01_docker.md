@@ -218,9 +218,9 @@ sudo systemctl restart docker
 
 ![image-20221024235229282](../../../blog/source/picture/image-20221024235229282.png)
 
-## 底层原理
+### 底层原理
 
-### docker是怎么工作的
+#### docker是怎么工作的
 
 docker是一个client-server结构的系统，docker的守护进程运行在主机上，通过socket从客户端访问
 
@@ -228,7 +228,7 @@ docker-server接收到docker-client指令，就会执行这个
 
 ![image-20220924133740588](../../../blog/source/picture/image-20220924133740588.png)
 
-### docker为什么比虚拟机快
+#### docker为什么比虚拟机快
 
 1. docker有着比虚拟机更少的抽象层
 1. docker利用宿主机的内核，VM需要是Guest Os
@@ -237,9 +237,9 @@ docker-server接收到docker-client指令，就会执行这个
 
 所以新建一个人容器的时候，docker不需要像虚拟机一样重新加载一个操作系统的内核，避免引导，虚拟机是加载Guest Os，分钟级别的，而docker是利用宿主机的操作系统，省略了这个复杂的过程，秒级的
 
-# 3.docker常用命令
+## 3.docker常用命令
 
-## 帮助信息
+### 帮助信息
 
 ```shell
 docker version     # 显示docker的版本信息
@@ -247,7 +247,7 @@ docker info        # 显示docker的系统信息，包括镜像和容器的数�
 docker cmd --help  # 帮助命令
 ```
 
-## 镜像命令
+### 镜像命令
 
 **docker images**
 
@@ -325,7 +325,7 @@ ubuntu@VM-12-15-ubuntu:~$ docker rmi -f python3 python2  # 删除多个容器
 ubuntu@VM-12-15-ubuntu:~$ docker rmi -f $(docker images)  # 删除全部的容器
 ```
 
-## 容器命令
+### 容器命令
 
 **说明：我们有了镜像才可以创建容器，linux，下载一个centos镜像来测试学习**
 
@@ -403,7 +403,7 @@ docker stop 容器id			# 停止正在运行的容器
 docker kill 容器id			# 强制停止当前容器
 ```
 
-## 常用其他命令
+### 常用其他命令
 
 **后台启动容器**
 
@@ -709,7 +709,7 @@ blog  nohup.out  project  test  xdj.txt  密码.txt
 # 拷贝是一个手动过程，未来我们使用-V卷的技术，可以实现
 ```
 
-## 小结
+### 小结
 
 ![image-20220924164954461](../../../blog/source/picture/image-20220924164954461.png)
 
@@ -758,13 +758,13 @@ wait        Block until one or more containers stop, then print their exit codes
 
 docker的命令是十分多的，上面我们学习的那些都是最常用的容器和镜像的命令，之后我们还会学习很多命令
 
-# 4.docker镜像
+## 4.docker镜像
 
-## 镜像是什么
+### 镜像是什么
 
 镜像是一个轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，它包含运行某个软件系统所需的所有内容，包括代码、运行时、库、环境变量和配置文件
 
-## docker镜像加载原理
+### docker镜像加载原理
 
 > ​	UnionFS（联合文件系统）
 
@@ -786,7 +786,7 @@ centos        latest       5d0da3dc9764   12 months ago   231MB
 
 对于一个精简的OS，rootfs可以很小，只需要包含最基本的命令、工具和程序库就可以了，因为底层直接用Host的kernel，自己只需提供rootfs就可以了。由此可见对于不同的linux发行版，bootfs基本是一致的，rootfs会有差别，因此不同的发行版可以共用bootfs。
 
-## 分层理解
+### 分层理解
 
 > 分层的镜像
 
@@ -962,7 +962,7 @@ docker镜像都是只读的，当容器启动时，一个新的可写层被加�
 
 这一层就是我们通常说的容器层，容器之下的都叫镜像层
 
-## commit镜像
+### commit镜像
 
 ```shell
 docker commit 提交容器成为一个新的副本
@@ -971,9 +971,9 @@ docker commit 提交容器成为一个新的副本
 docker commit -m='提交的描述信息' -a='作者' 容器id 目标镜像名：[TAG]
 ```
 
-## 容器数据卷
+### 容器数据卷
 
-### 什么是容器数据卷
+#### 什么是容器数据卷
 
 数据卷就是宿主机上的一个目录或者文件，当容器目录和数据卷目录绑定后，对方的修改会立即同步。
 
@@ -983,7 +983,7 @@ docker commit -m='提交的描述信息' -a='作者' 容器id 目标镜像名：
 
 Docker容器删除后，在容器中产生的数据也会随之销毁，所以使用数据卷避免这种情况
 
-### 使用数据卷
+#### 使用数据卷
 
 > 方式一：直接使用命令来挂在 -v
 
@@ -1005,7 +1005,7 @@ ubuntu@VM-12-15-ubuntu:~$ docker run -it -v /home/ceshi:/home centos /bin/bash
 
 3. 可以挂载多个数据卷
 
-### 具名和匿名挂载
+#### 具名和匿名挂载
 
 ```shell
 # 匿名挂载
@@ -1055,7 +1055,7 @@ docker run -d -P --name nginx02 -v xxx:/etc/nginx:rw nginx
 # ro 只要看到ro就说明这个路径只能通过宿主机来操作，容器内部无法操作
 ```
 
-### 初识Dockerfile
+#### 初识Dockerfile
 
 Dockerfile就是用来构建docker镜像的构建文件，命令脚本
 
@@ -1075,7 +1075,7 @@ CMD /bin/bash
 # 这里的每个命令，就是镜像的一层
 ```
 
-### 数据卷容器
+#### 数据卷容器
 
 如果用户需要在多个容器之间共享一些持续更新的数据，最简单的方式是使用数据卷容器。
 数据卷容器也是一个容器，但是它的目的是专门提供数据卷给其他容器挂载
@@ -1094,9 +1094,9 @@ echo "db1 xdj test" > db1_test.txt
 
 容器之间配置信息的传递，数据卷容器的生命周期一直持续到没有容器使用为止。但是一旦持久化到了本地，这个时候本地的数据是不会删除的
 
-## Dockerfile
+### Dockerfile
 
-### Dockerfile介绍
+#### Dockerfile介绍
 
 dockerfile是用来构建docker镜像的文件，命令参数脚本
 
@@ -1109,7 +1109,7 @@ dockerfile是用来构建docker镜像的文件，命令参数脚本
 
 很多官方镜像都是基础包，很多功能没有，我们通常会自己搭建自己的镜像
 
-### Dockerfile构建过程
+#### Dockerfile构建过程
 
 **基础知识：**
 
@@ -1126,7 +1126,7 @@ dockerimage：通过Dockerfile构建生成的镜像，最终发布和运行的�
 
 docker容器：容器就是镜像运行起来提供服务器
 
-### Dokerfile指令
+#### Dokerfile指令
 
 ```shell
 FROM  					# 基础镜像，一切从这里开始构建
@@ -1252,9 +1252,9 @@ drwxrwxrwx  20 root root 4096 Sep 15  2021 var
 
 编写dockerfile文件，官方命令`Dockerfile`，build会自动寻找这个文件，就不需要-f指定了
 
-## Docker网络
+### Docker网络
 
-### 理解docker网络
+#### 理解docker网络
 
 四类网络
 
@@ -1265,26 +1265,26 @@ drwxrwxrwx  20 root root 4096 Sep 15  2021 var
 | none模式       | --net=none                 | 容器有独立的Netword namespace，单并没有对其进行任何网络设置，如分配veth pair和网络桥接，配置ip等 |
 | bridge模式     | --net=bridge               | （默认为该模式）                                             |
 
-#### host模式
+##### host模式
 
 host网络模式需要在容器创建时指定–network=host
 **hots模式是和宿主机公用一个网段和端口，缺陷是会隔离性差，会占用宿主机的端口，做不到自定任意端口。优点，无需做网络策略，只要能访问到宿主机，就能访问到容器**
 
 ![在这里插入图片描述](../../../blog/source/picture/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiW5aSW5bmz5bi45Lq6,size_20,color_FFFFFF,t_70,g_se,x_16.png)
 
-#### container模式
+##### container模式
 
 这个模式是两个容器之间可以相互通信，虽然是两个容器，但可以理解为在同一容器里面，可以用localhost访问。两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。
 
 ![在这里插入图片描述](../../../blog/source/picture/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiW5aSW5bmz5bi45Lq6,size_20,color_FFFFFF,t_70,g_se,x_16-20221026215549993.png)
 
-#### none模式
+##### none模式
 
 使用none模式，Docker容器拥有自己的Network Namespace，但是，并不为Docker容器进行任何网络配置。也就是说，这个Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。
 
 ![在这里插入图片描述](../../../blog/source/picture/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiW5aSW5bmz5bi45Lq6,size_20,color_FFFFFF,t_70,g_se,x_16-20221026215613911.png)
 
-#### bridge模式
+##### bridge模式
 
 ![在这里插入图片描述](../../../blog/source/picture/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiW5aSW5bmz5bi45Lq6,size_18,color_FFFFFF,t_70,g_se,x_16.png)
 
