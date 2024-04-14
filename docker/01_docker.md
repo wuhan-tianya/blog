@@ -1,7 +1,7 @@
-Docker
+# Docker
 
 
-# 1.Docker 简介和安装
+## 1.Docker 简介和安装
 
 ### Docker 是什么
 
@@ -42,9 +42,9 @@ Docker 是一个应用打包、分发、部署的工具
 **镜像**：可以理解为软件安装包，可以方便的进行传播和安装。
 **容器**：软件安装后的状态，每个软件运行环境都是独立的、隔离的，称之为容器。
 
-# 2.docker安装
+## 2.docker安装
 
-## docker的基本组成
+### docker的基本组成
 
 ![img](https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg-blog.csdnimg.cn%2Fimg_convert%2F287b359dc6f80f03900e627a650521a1.png&refer=http%3A%2F%2Fimg-blog.csdnimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666275694&t=dcbbc9ea76480c35c685643cbb498195)
 
@@ -68,7 +68,7 @@ docker hub（默认是国外的）
 
 阿里云。。。都有容器服务器（配置镜像加速）
 
-## 安装docker
+### 安装docker
 
 > 环境准备
 
@@ -191,7 +191,7 @@ For more examples and ideas, visit:
  docker images
 ```
 
-## 阿里云进行加速
+### 阿里云进行加速
 
 1. 安装/升级docker客户端
 

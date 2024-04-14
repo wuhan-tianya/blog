@@ -1,4 +1,4 @@
-02 python类型注解
+# 02 python类型注解
 
 
 # python类型提示
